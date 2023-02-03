@@ -13,6 +13,7 @@ function getTheme () {
   let theme = getCookie('theme')
   if (theme === undefined) {
     document.cookie = 'theme=light'
+    return 'light'
   } else {
     return theme
   }
