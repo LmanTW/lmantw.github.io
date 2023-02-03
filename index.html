@@ -1,0 +1,180 @@
+<html>
+  <head>
+    <title>LmanTW｜主頁</title>
+  </head>
+  <style>
+    :root {
+      --backgroundColor: 'white';
+      --color: 'black';
+      --switchThemeColor: '#0D113B';
+      --box2Height: none;
+      --box2OldHeight: none;
+      --shortIntroHeight: none;
+      --box3Width: none
+    }
+    @keyframes boxOut {
+      60% { top: calc(100vh - 100px) }
+      100% { top: calc(100vh + 75px) }
+    }
+    @keyframes box2In {
+      60% { top: 100px }
+      100% { top: calc(50vh - calc(var(--box2Height)/2)) }
+    }
+    @keyframes box3In {
+      100% { left: calc(50vw - calc(var(--box3Width)/2)) }
+    }
+    @keyframes box2Up {
+      100% { top: calc(50vh - calc(var(--box2Height)/2)) }
+    }
+    @keyframes box2Up2 {
+      0% { top: calc(50vh - calc(var(--box2OldHeight)/2)) }
+      100% { top: calc(50vh - calc(var(--box2Height)/2)) }
+    }
+    @keyframes box4In {
+      100% { top: calc(50vh + calc(var(--box2Height)/2) + 50px) }
+    }
+    ion-icon {
+      color: white
+    }
+    .box4-box {
+      display: block;
+      border-color: var(--color);
+      border-style: solid;
+      border-radius: 5px;
+      background-color: var(--backgroundColor);;
+      margin: 15px;
+      transition-duration: 0.5s;
+    }
+    .box4-box:hover {
+      transform: scale(1.05);
+    }
+  </style>
+  <body style="display: flex; background-color: var(--backgroundColor); justify-content: center; align-items: center;">
+    <img id="theme" src="Images/darkTheme.svg" style="position: fixed; width: 50px;"/>
+    <div id="box" style="display: block; position: fixed; top: 50vh">
+      <h1 style="margin: 0px; color: var(--color); text-align: center;">LmanTW</h1>
+      <h5 style="margin: 0px; color: var(--color); text-align: center;">(點擊或向上滑動繼續)</h5>
+    </div>
+    <div id="box2" style="display: block; position: fixed; top: -75px; width: 60vw">
+      <h1 style="margin: 0px; vertical-align: middle; color: var(--color); text-align: center;">LmanTW</h1>
+      <h4 id="shortIntro" style="margin: 0px; text-align: center; color: var(--color)">一個14歲的自學生，喜歡編程, 做曲(編曲)</h4>
+      <div style="height: 50px"></div>
+    </div>
+    <div id="box3" style="position: fixed; width: 60vw; left: 100vw; top: calc(50vh + calc(var(--box2Height)/2))">
+      <h4 id="introText" style="margin: 0px; text-align: center; color: var(--color)">從大概小學三年級拿到電腦後就開始玩Scratch，玩到國一(2022 1月)才接觸了JS(其實還有Py和Luna，但都沒怎麼在用所以就忘了)，之後又接觸到了Discord.JS就開始寫Discord Bot。另外我在5~6歲時就有開始學鋼琴，學到現在也8~9年的時間了，鋼琴主要最厲害的是即興+作曲，看譜彈我就很爛了(看很慢)，沒有受過什麼真的很專業的作曲(編曲)教育，但我的音樂應該都沒爛到哪裡吧....?</h4>
+    </div>
+    <div id="box4" style="display: flex; flex-wrap: wrap; position: fixed; top: 100vh; justify-content: center;">
+      <div class="box4-box">
+        <p style="margin: 0px; padding: 10px; font-size: 20px; font-weight: 600; color: var(--color);">✅ 編程(JS)<br>✅ 做曲(編曲)<br>🤔 一堆奇怪的酷計畫</p>
+      </div>
+      <div class="box4-box" >
+        <p style="margin: 0px; padding: 10px; font-size: 20px; font-weight: 600; color: var(--color);">❌ 一般科目(國,數,社,自)<br>❌ 運動(我很宅)<br>❌ 現實世界的社交</p>
+      </div>
+    </div>
+  </body>
+  <script type="module">
+    import { displayTheme } from './theme.js'
+    displayTheme()
+    let page = 'click'
+    const box = document.getElementById('box')
+    const box2 = document.getElementById('box2')
+    const shortIntro = document.getElementById('shortIntro')
+    const box4 = document.getElementById('box4')
+    const root = document.querySelector(':root')
+    root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+    root.style.setProperty('--shortIntroHeight', `${shortIntro.offsetHeight}px`)
+    root.style.setProperty('--box4Height', `${box4.offsetHeight}px`)
+    box.style.left = `calc(50vw - ${box.offsetWidth/2}px)`
+    box.style.top = `calc(50vh - ${box.offsetHeight/2}px)`
+    box2.style.left = `calc(50vw - ${box2.offsetWidth/2}px)`
+    box4.style.left = `calc(50vw - ${box4.offsetWidth/2}px)`
+    //簡介
+    function intro () {
+      if (page === 'click') {
+        clearInterval(interval)
+        page = 'intro'
+        box.style.animation = 'boxOut 1s 1'
+        box2.style.animation = 'box2In 1s 1'
+        box.addEventListener('animationend', () => {
+          box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
+          document.body.removeChild(box)
+          let box3 = document.getElementById('box3')
+          root.style.setProperty('--box3Width', `${box3.offsetWidth}px`)
+          box3.style.animation = 'box3In 0.75s 1'
+          box3.addEventListener('animationend', () => {
+            box3.style.animation = ''
+            let box2OldHeight = box2.offsetHeight
+            const introText = document.getElementById('introText')
+            box2.appendChild(introText)
+            document.body.removeChild(box3)
+            introText.style.position = 'static'
+            root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+            box2.style.top = `calc(calc(50vh - ${box2.offsetHeight/2}px) + ${(box2.offsetHeight-box2OldHeight)/2}px)`
+            box2.style.animation = 'box2Up 0.5s 1'
+            box2.addEventListener('animationend', (e) => {
+              if (e.animationName === 'box2Up') {
+                box2.style.animation = ''
+                box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
+                box4.style.animation = 'box4In 0.75s 1'
+                box4.addEventListener('animationend', (e2) => {
+                  if (e2.animationName === 'box4In') {
+                    box4.style.animation = ''
+                    box2OldHeight = box2.offsetHeight
+                    const space = document.createElement('div')
+                    space.style.height = '50px'
+                    box2.appendChild(space)
+                    box2.appendChild(box4)
+                    box4.style.position = 'static'
+                    root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+                    root.style.setProperty('--box2OldHeight', `${box2OldHeight}px`)
+                    box2.style.animation = 'box2Up2 1s 1'
+                }
+              })
+              } else {
+                box2.style.position = 'static'
+              }
+            })
+          })
+        })
+      }
+    }
+    //偵測點擊或滑動
+    document.addEventListener('mousedown', intro)
+    let boxScrollY = 0
+    let mousewheelY = 0
+    let mousewheelStop = 0
+    document.addEventListener('mousewheel', (e) => {
+      const scrollX = (e.deltaX < 0) ? -e.deltaX : e.deltaX
+      const scrollY = (e.deltaY < 0) ? -e.deltaY : e.deltaY
+      if (scrollX > scrollY) {
+        
+      } else {
+
+      }
+      if (e.deltaY < 0) mousewheelY = e.deltaY
+    })
+    let interval = setInterval(() => {
+      if (mousewheelY > 25) boxScrollY += 25
+      else if (mousewheelY < -25) boxScrollY += -25
+      else boxScrollY+=mousewheelY
+      if (mousewheelY === 0) mousewheelStop++
+      else mousewheelStop = 0
+      mousewheelY = 0
+      if (mousewheelStop > 10) {
+        if (boxScrollY < 0) {
+          boxScrollY-=boxScrollY/15
+          if (boxScrollY > 0) boxScrollY = 0
+        }
+      }
+      box.style.top = `calc(50vh - ${box.offsetHeight/2}px - ${boxScrollY}px)`
+      if (boxScrollY < -75) intro()
+    }, 1)
+    //視窗大小改變
+    window.addEventListener('resize', (e) => {
+      root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+      box2.style.left = `calc(50vw - ${box2.offsetWidth/2}px)`
+      box4.style.left = `calc(50vw - ${box4.offsetWidth/2}px)`
+      box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
+    })
+  </script>
+</html>
