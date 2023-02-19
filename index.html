@@ -3,14 +3,8 @@
     <title>LmanTW｜主頁</title>
   </head>
   <style>
-    :root {
-      --backgroundColor: 'white';
-      --color: 'black';
-      --switchThemeColor: '#0D113B';
-      --box2Height: none;
-      --box2OldHeight: none;
-      --shortIntroHeight: none;
-      --box3Width: none
+    @keyframes homePageDirectionTextOut {
+      100% { color: transparent; top: -25px }
     }
     @keyframes boxOut {
       60% { top: calc(100vh - 100px) }
@@ -49,38 +43,39 @@
       transform: scale(1.05);
     }
   </style>
-  <body style="display: flex; background-color: var(--backgroundColor); justify-content: center; align-items: center;">
-    <img id="theme" src="Images/darkTheme.svg" style="position: fixed; width: 50px;"/>
-    <div id="box" style="display: block; position: fixed; top: 50vh">
-      <h1 style="margin: 0px; color: var(--color); text-align: center;">LmanTW</h1>
-      <h5 style="margin: 0px; color: var(--color); text-align: center;">(點擊或向上滑動繼續)</h5>
-    </div>
-    <div id="box2" style="display: block; position: fixed; top: -75px; width: 60vw">
-      <h1 style="margin: 0px; vertical-align: middle; color: var(--color); text-align: center;">LmanTW</h1>
-      <h4 id="shortIntro" style="margin: 0px; text-align: center; color: var(--color)">一個14歲的自學生，喜歡編程, 做曲(編曲)</h4>
-      <div style="height: 50px"></div>
-    </div>
-    <div id="box3" style="position: fixed; width: 60vw; left: 100vw; top: calc(50vh + calc(var(--box2Height)/2))">
-      <h4 id="introText" style="margin: 0px; text-align: center; color: var(--color)">從大概小學三年級拿到電腦後就開始玩Scratch，玩到國一(2022 1月)才接觸了JS(其實還有Py和Luna，但都沒怎麼在用所以就忘了)，之後又接觸到了Discord.JS就開始寫Discord Bot。另外我在5~6歲時就有開始學鋼琴，學到現在也8~9年的時間了，鋼琴主要最厲害的是即興+作曲，看譜彈我就很爛了(看很慢)，沒有受過什麼真的很專業的作曲(編曲)教育，但我的音樂應該都沒爛到哪裡吧....?</h4>
-    </div>
-    <div id="box4" style="display: flex; flex-wrap: wrap; position: fixed; top: 100vh; justify-content: center;">
-      <div class="box4-box">
-        <p style="margin: 0px; padding: 10px; font-size: 20px; font-weight: 600; color: var(--color);">✅ 編程(JS)<br>✅ 做曲(編曲)<br>🤔 一堆奇怪的酷計畫</p>
-      </div>
-      <div class="box4-box" >
-        <p style="margin: 0px; padding: 10px; font-size: 20px; font-weight: 600; color: var(--color);">❌ 一般科目(國,數,社,自)<br>❌ 運動(我很宅)<br>❌ 現實世界的社交</p>
-      </div>
-    </div>
-  </body>
+  <body style="display: flex; background-color: var(--backgroundColor); justify-content: center; align-items: center;"></body>
   <script type="module">
     import { displayTheme } from './theme.js'
+    import { createElement, setElementOptions } from './tools.js'
+
+    document.body.appendChild(createElement('img', { id: 'theme' }))
     displayTheme()
-    let page = 'click'
-    const box = document.getElementById('box')
-    const box2 = document.getElementById('box2')
-    const shortIntro = document.getElementById('shortIntro')
-    const box4 = document.getElementById('box4')
+
+    const homePageDirection = createElement('h5', { innerHTML: '▲<br>主頁', style: { position: 'fixed', color: 'var(--color)', margin: '5px', left: 'calc(50vw - 13px)', top: '0px', textAlign: 'center' }})
+    document.body.appendChild(homePageDirection)
+
+    const box = document.body.appendChild(createElement('div', { style: { position: 'fixed', top: '50vh' }}))
+    box.appendChild(createElement('h1', { innerHTML: 'LmanTW', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+    box.appendChild(createElement('h5', { innerHTML: '(跟著箭頭指示滑動繼續)', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+
+    const box2 = document.body.appendChild(createElement('div', { style: { position: 'fixed',  width: '60vw', top: '-75px' }}))
+    box2.appendChild(createElement('h1', { innerHTML: 'LmanTW', style: { margin: '0px', verticalAlign: 'middle', color: 'var(--color)', textAlign: 'center' }}))
+    box2.appendChild(createElement('h4', { id: 'shortIntro', innerHTML: '一個14歲的自學生，喜歡編程, 做曲(編曲)', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+    box2.appendChild(createElement('div', { style: { height: '50px' }}))
+
+    const box3 = document.body.appendChild(createElement('div', { style: { position: 'fixed', width: '60vw', left: '100vw', top: 'calc(50vh + calc(var(--box2Height)/2))' }}))
+    const introText = box3.appendChild(createElement('h4', { innerHTML: '從大概小學三年級拿到電腦後就開始玩Scratch，玩到國一(2022 1月)才接觸了JS(其實還有Py和Luna，但都沒怎麼在用所以都忘了)，之後又接觸到了Discord.JS就開始寫Discord Bot。另外我在5~6歲時就有開始學鋼琴，學到現在也8~9年的時間了，我彈鋼琴主要最厲害的是即興+作曲，看譜彈我就很爛了(看很慢)，沒有受過什麼真的很專業的作曲(編曲)教育，但我的音樂應該沒到很爛吧....?', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+
+    const box4 = document.body.appendChild(createElement('div', { style: { display: 'flex', flexWrap: 'wrap', position: 'fixed', width: '60vw', top: '100vh', justifyContent: 'center' }}))
+    const box4_box = box4.appendChild(createElement('div', { classList: 'box4-box', style: { borderStyle: 'solid' }}))
+    box4_box.appendChild(createElement('div', { innerHTML: '✅ 編程 (JS, Html, CSS)<br>✅ 做曲 (編曲)<br>🤔 想一堆奇怪的酷計畫', style: { margin: '0px', padding: '10px', fontSize: '20px', fontWeight: '600', lineHeight: '30px', color: 'var(--color)' }}))
+    const box4_box2 = box4.appendChild(createElement('div', { classList: 'box4-box', style: { borderStyle: 'solid' }}))
+    box4_box2.appendChild(createElement('div', { innerHTML: '❌ 一般科目 (國,數,社,自)<br>❌ 運動 (我很宅)<br>❌ 現實世界的社交', style: { margin: '0px', padding: '10px', fontSize: '20px', fontWeight: '600', lineHeight: '30px', color: 'var(--color)' }}))
+
+    const body = document.body
     const root = document.querySelector(':root')
+    let page = 'click'
+
     root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
     root.style.setProperty('--shortIntroHeight', `${shortIntro.offsetHeight}px`)
     root.style.setProperty('--box4Height', `${box4.offsetHeight}px`)
@@ -88,93 +83,92 @@
     box.style.top = `calc(50vh - ${box.offsetHeight/2}px)`
     box2.style.left = `calc(50vw - ${box2.offsetWidth/2}px)`
     box4.style.left = `calc(50vw - ${box4.offsetWidth/2}px)`
-    //簡介
-    function intro () {
-      if (page === 'click') {
-        clearInterval(interval)
-        page = 'intro'
-        box.style.animation = 'boxOut 1s 1'
-        box2.style.animation = 'box2In 1s 1'
-        box.addEventListener('animationend', () => {
-          box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
-          document.body.removeChild(box)
-          let box3 = document.getElementById('box3')
-          root.style.setProperty('--box3Width', `${box3.offsetWidth}px`)
-          box3.style.animation = 'box3In 0.75s 1'
-          box3.addEventListener('animationend', () => {
-            box3.style.animation = ''
-            let box2OldHeight = box2.offsetHeight
-            const introText = document.getElementById('introText')
-            box2.appendChild(introText)
-            document.body.removeChild(box3)
-            introText.style.position = 'static'
-            root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
-            box2.style.top = `calc(calc(50vh - ${box2.offsetHeight/2}px) + ${(box2.offsetHeight-box2OldHeight)/2}px)`
-            box2.style.animation = 'box2Up 0.5s 1'
-            box2.addEventListener('animationend', (e) => {
-              if (e.animationName === 'box2Up') {
-                box2.style.animation = ''
-                box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
-                box4.style.animation = 'box4In 0.75s 1'
-                box4.addEventListener('animationend', (e2) => {
-                  if (e2.animationName === 'box4In') {
-                    box4.style.animation = ''
-                    box2OldHeight = box2.offsetHeight
-                    const space = document.createElement('div')
-                    space.style.height = '50px'
-                    box2.appendChild(space)
-                    box2.appendChild(box4)
-                    box4.style.position = 'static'
-                    root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
-                    root.style.setProperty('--box2OldHeight', `${box2OldHeight}px`)
-                    box2.style.animation = 'box2Up2 1s 1'
+
+    //前往主頁的動畫
+    function homePage () {
+      if (page !== 'click') return
+      clearInterval(interval)
+      page = 'intro'
+      homePageDirection.style.animation = 'homePageDirectionTextOut 0.5s 1'
+      homePageDirection.addEventListener('animationend', () => document.body.removeChild(homePageDirection))
+      box.style.animation = 'boxOut 1s 1'
+      box2.style.animation = 'box2In 1s 1'
+      box.addEventListener('animationend', () => {
+        box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
+        document.body.removeChild(box)
+        root.style.setProperty('--box3Width', `${box3.offsetWidth}px`)
+        box3.style.animation = 'box3In 0.75s 1'
+        box3.addEventListener('animationend', () => {
+          box3.style.animation = ''
+          let box2OldHeight = box2.offsetHeight
+          box2.appendChild(introText)
+          document.body.removeChild(box3)
+          introText.style.position = 'static'
+          root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+          setElementOptions(box2, { style: { top: `calc(calc(50vh - ${box2.offsetHeight/2}px) + ${(box2.offsetHeight-box2OldHeight)/2}px)`, animation: 'box2Up 0.5s 1' }})
+          box2.style.top = `calc(calc(50vh - ${box2.offsetHeight/2}px) + ${(box2.offsetHeight-box2OldHeight)/2}px)`
+          box2.style.animation = 'box2Up 0.5s 1'
+          box2.addEventListener('animationend', (e) => {
+            if (e.animationName === 'box2Up') {
+              setElementOptions(box2, { style: { animation: '', top: 'calc(50vh - calc(var(--box2Height)/2))' }})
+              box4.style.animation = 'box4In 0.75s 1'
+              box4.addEventListener('animationend', (e2) => {
+                if (e2.animationName === 'box4In') {
+                  box4.style.animation = ''
+                  box2OldHeight = box2.offsetHeight
+                  const space = document.createElement('div')
+                  space.style.height = '50px'
+                  box2.appendChild(space)
+                  box2.appendChild(box4)
+                  box4.style.position = 'static'
+                  root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
+                  root.style.setProperty('--box2OldHeight', `${box2OldHeight}px`)
+                  box2.style.animation = 'box2Up2 1s 1'
                 }
               })
-              } else {
-                box2.style.position = 'static'
-              }
-            })
+            } else {
+              window.location.assign('/home.html')
+            }
           })
         })
-      }
+      })
     }
-    //偵測點擊或滑動
-    document.addEventListener('mousedown', intro)
-    let boxScrollY = 0
-    let mousewheelY = 0
-    let mousewheelStop = 0
-    document.addEventListener('mousewheel', (e) => {
-      const scrollX = (e.deltaX < 0) ? -e.deltaX : e.deltaX
-      const scrollY = (e.deltaY < 0) ? -e.deltaY : e.deltaY
-      if (scrollX > scrollY) {
-        
-      } else {
 
-      }
+    //偵測點擊或滑動
+    let boxScrollY = 0, mousewheelY = 0, touchY, mousewheelStop = 0
+    document.addEventListener('mousewheel', (e) => {
       if (e.deltaY < 0) mousewheelY = e.deltaY
     })
+    document.addEventListener('touchmove', (e) => {
+      if (touchY === undefined) {
+        touchY = e.changedTouches[0].clientY
+      } else {
+        if (e.changedTouches[0].clientY-touchY > 0) mousewheelY = -(e.changedTouches[0].clientY-touchY)
+        touchY = e.changedTouches[0].clientY
+      }
+    })
+    document.addEventListener('touchend', (e) => {
+      touchY = undefined
+    })
     let interval = setInterval(() => {
-      if (mousewheelY > 25) boxScrollY += 25
-      else if (mousewheelY < -25) boxScrollY += -25
+      if (mousewheelY < -25) boxScrollY += -25
       else boxScrollY+=mousewheelY
       if (mousewheelY === 0) mousewheelStop++
       else mousewheelStop = 0
       mousewheelY = 0
       if (mousewheelStop > 10) {
-        if (boxScrollY < 0) {
-          boxScrollY-=boxScrollY/15
-          if (boxScrollY > 0) boxScrollY = 0
-        }
+        boxScrollY-=boxScrollY/15
+        if (boxScrollY > 0) boxScrollY = 0
       }
       box.style.top = `calc(50vh - ${box.offsetHeight/2}px - ${boxScrollY}px)`
-      if (boxScrollY < -75) intro()
+      if (boxScrollY < -75) homePage()
     }, 1)
+    
     //視窗大小改變
     window.addEventListener('resize', (e) => {
       root.style.setProperty('--box2Height', `${box2.offsetHeight}px`)
       box2.style.left = `calc(50vw - ${box2.offsetWidth/2}px)`
       box4.style.left = `calc(50vw - ${box4.offsetWidth/2}px)`
-      box2.style.top = 'calc(50vh - calc(var(--box2Height)/2))'
     })
   </script>
 </html>

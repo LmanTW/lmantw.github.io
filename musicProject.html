@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>LmanTW｜音樂專案 > 帶入中</title>
+  </head>
+  <body style="display: flex; background-color: var(--backgroundColor); justify-content: center; align-items: center;"></body>
+  <script type="module">
+    import { displayTheme } from './theme.js'
+    import { createElement, setElementOptions } from './tools.js'
+    import { get } from './get.js'
+
+    document.body.appendChild(createElement('img', { id: 'theme' }))
+    displayTheme()
+
+    const projectData = JSON.parse(sessionStorage.getItem('musicProjectData'))
+    const projectName = new URLSearchParams(window.location.search).get('name')
+
+    if (projectData === null || projectName !== projectData.name) {
+      sessionStorage.removeItem('musicProjectData')
+      window.location.href = `/musicProjects.html?name=${projectName}`
+    } else {
+      document.title = `LmanTW｜音樂專案 > ${projectData.name}`
+      const box = document.body.appendChild(createElement('div', { style: { borderColor: 'var(--color)', borderStyle: 'solid', borderRadius: '5px', borderWidth: '2px', width: 'calc(100vw - 175px)', height: 'calc(100vh - 175px)', overflow: 'hidden' }}))
+      const box2 = box.appendChild(createElement('div', { style: { display: 'flex', width: 'calc(100vw - 175px)', height: '200px' }}))
+      box2.appendChild(createElement('img', { src: projectData.image, style: { borderColor: 'var(--color)', borderStyle: 'none solid solid none', borderRadius: '0px 0px 5px 0px', borderWidth: '2px', height: '200px' } }))
+      const box3 = box2.appendChild(createElement('div', { style: { width: 'calc(100vw - 175px)', height: '200px', overflowX: 'hidden', overflowY: 'hidden' }}))
+      box3.appendChild(createElement('h1', { innerHTML: projectData.name, style: { color: 'var(--color)', margin: '10px' }}))
+      box3.appendChild(createElement('h4', { innerHTML: projectData.description, style: { color: 'var(--color)', margin: '10px' }}))
+      box.appendChild(createElement('iframe', { src: `https://streetvoice.com/music/embed/?id=716431`, width: 330, height: 100, frameborder: 0, marginheight: 0, marginwidth: 0, scrolling: 'no', style: { border: 'none', borderRadius: '5px' }}))
+      //box.appendChild(createElement('iframe', { src: `https://www.youtube.com/embed/${projectData.youtubeLink.split('/')[3]}`, frameborder: '0', width: 460, height: 260, webShare: 'allowfullscreen', style: { border: 'none', marginTop: '10px' }}))
+      //<iframe frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    }
+  </script>
+</html>

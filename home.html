@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>LmanTW｜主頁</title>
+  </head>
+  <style>
+    @keyframes pageDirectionTextIn {
+      0% { color: transparent }
+    }
+    @keyframes homePageDirectionTextOut-up {
+      100% { color: transparent; top: -25px }
+    }
+    @keyframes homePageDirectionTextOut-down {
+      100% { color: transparent; top: calc(100vh) }
+    }
+    @keyframes boxOut-up {
+      100% { top: calc(0px - var(--boxHeight)) }
+    }
+    @keyframes boxOut-down {
+      100% { top: calc(100vh + var(--boxHeight)) }
+    }
+    .box2-box {
+      display: block;
+      border-color: var(--color);
+      border-style: solid;
+      border-radius: 5px;
+      background-color: var(--backgroundColor);;
+      margin: 15px;
+      transition-duration: 0.5s;
+    }
+    .box2-box:hover {
+      transform: scale(1.05);
+    }
+  </style>
+  <body style="display: flex; background-color: var(--backgroundColor); justify-content: center; align-items: center;"></body>
+  <script type="module">
+    import { displayTheme } from './theme.js'
+    import { createElement, setElementOptions } from './tools.js'
+
+    document.body.appendChild(createElement('img', { id: 'theme' }))
+    displayTheme()
+
+    const programmingProjectsPageDirection = createElement('h5', { innerHTML: '▲<br>編程專案', style: { position: 'fixed', animation: 'pageDirectionTextIn 1s 1', color: 'var(--color)', margin: '5px', left: 'calc(50vw - 26px)', top: '0px', textAlign: 'center', zIndex: '998' }})
+    document.body.appendChild(programmingProjectsPageDirection)
+    const musicPageDirection = createElement('h5', { innerHTML: '音樂專案<br>▼', style: { position: 'fixed', animation: 'pageDirectionTextIn 1s 1', color: 'var(--color)', margin: '5px', left: 'calc(50vw - 13px)', top: 'calc(100vh - 50px)', textAlign: 'center', zIndex: '998' }})
+    document.body.appendChild(musicPageDirection)
+
+    const box = document.body.appendChild(createElement('div', { style: { position: 'fixed', width: '60vw', top: '-75px' }}))
+    box.appendChild(createElement('h1', { innerHTML: 'LmanTW', style: { margin: '0px', verticalAlign: 'middle', color: 'var(--color)', textAlign: 'center' }}))
+    box.appendChild(createElement('h4', { id: 'shortIntro', innerHTML: '一個14歲的自學生，喜歡編程, 做曲(編曲)', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+    box.appendChild(createElement('div', { style: { height: '50px' }}))
+    box.appendChild(createElement('h4', { innerHTML: '從大概小學三年級拿到電腦後就開始玩Scratch，玩到國一(2022 1月)才接觸了JS(其實還有Py和Luna，但都沒怎麼在用所以都忘了)，之後又接觸到了Discord.JS就開始寫Discord Bot。另外我在5~6歲時就有開始學鋼琴，學到現在也8~9年的時間了，我彈鋼琴主要最厲害的是即興+作曲，看譜彈我就很爛了(看很慢)，沒有受過什麼真的很專業的作曲(編曲)教育，但我的音樂應該沒到很爛吧....?', style: { margin: '0px', color: 'var(--color)', textAlign: 'center' }}))
+    box.appendChild(createElement('div', { style: { height: '50px' }}))
+
+    const box2 = box.appendChild(createElement('div', { style: { display: 'flex', flexWrap: 'wrap', top: '100vh', justifyContent: 'center' }}))
+    const box2_box = box2.appendChild(createElement('div', { classList: 'box2-box', style: { borderStyle: 'solid' }}))
+    box2_box.appendChild(createElement('div', { innerHTML: '✅ 編程 (JS, Html, CSS)<br>✅ 做曲 (編曲)<br>🤔 想一堆奇怪的酷計畫', style: { margin: '0px', padding: '10px', fontSize: '20px', fontWeight: '600', lineHeight: '30px', color: 'var(--color)' }}))
+    const box2_box2 = box2.appendChild(createElement('div', { classList: 'box2-box', style: { borderStyle: 'solid' }}))
+    box2_box2.appendChild(createElement('div', { innerHTML: '❌ 一般科目 (國,數,社,自)<br>❌ 運動 (我很宅)<br>❌ 現實世界的社交', style: { margin: '0px', padding: '10px', fontSize: '20px', fontWeight: '600', lineHeight: '30px', color: 'var(--color)' }}))
+
+    const root = document.querySelector(':root')
+    root.style.setProperty('--boxHeight', `${box.offsetHeight}px`)
+    box.style.left = `calc(50vw - ${box.offsetWidth/2}px)`
+    box.style.top = `calc(50vh - ${box.offsetHeight/2}px)`
+    
+    let boxScrollY = 0, mousewheelY = 0, touchY, mousewheelStop = 0
+    document.addEventListener('mousewheel', (e) => {
+      mousewheelY = e.deltaY
+    })
+    document.addEventListener('touchmove', (e) => {
+      if (touchY === undefined) {
+        touchY = e.changedTouches[0].clientY
+      } else {
+        mousewheelY = -(e.changedTouches[0].clientY-touchY)
+        touchY = e.changedTouches[0].clientY
+      }
+    })
+    document.addEventListener('touchend', (e) => {
+      touchY = undefined
+    })
+    let interval = setInterval(() => {
+      if (mousewheelY < -25) boxScrollY += -25
+      else boxScrollY+=mousewheelY
+      if (mousewheelY === 0) {
+        mousewheelStop++
+        if (touchY === undefined) mousewheelStop++
+        else mousewheelStop = 0
+      } else {
+        mousewheelStop = 0
+      }
+      mousewheelY = 0
+      if (mousewheelStop > 10) {
+        touchY = undefined
+        if (boxScrollY < 0) {
+          boxScrollY-=boxScrollY/15
+          if (boxScrollY > 0) boxScrollY = 0
+        } else {
+          boxScrollY-=boxScrollY/15
+          if (boxScrollY < 0) boxScrollY = 0
+        }
+      }
+      box.style.top = `calc(50vh - ${box.offsetHeight/2}px - ${boxScrollY}px)`
+      if (boxScrollY > 25 || boxScrollY < -25) {
+        clearInterval(interval)
+        programmingProjectsPageDirection.style.animation = 'homePageDirectionTextOut-up 1s 1'
+        musicPageDirection.style.animation = 'homePageDirectionTextOut-down 1s 1'
+        if (boxScrollY > 25) box.style.animation = 'boxOut-up 1s 1'
+        if (boxScrollY < -25) box.style.animation = 'boxOut-down 1s 1'
+      }
+    }, 1)
+    box.addEventListener('animationend', (e) => {
+      document.body.removeChild(programmingProjectsPageDirection)
+      document.body.removeChild(musicPageDirection)
+      document.body.removeChild(box)
+      if (e.animationName === 'boxOut-down') {
+        
+      } else if (e.animationName === 'boxOut-up') {
+        window.location.assign('/musicProjects.html')
+      }
+    })
+
+    //視窗大小改變
+    window.addEventListener('resize', (e) => {
+      box.style.left = `calc(50vw - ${box.offsetWidth/2}px)`
+    })
+  </script> 
+  </html>
