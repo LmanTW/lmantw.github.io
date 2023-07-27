@@ -3,8 +3,8 @@ export default (canvas, camera, object) => {
   let data = {
     x: (canvas.width/2)+((((canvas.width+canvas.height)/100)*(object.x-camera.x))*camera.zoom),
     y: (canvas.height/2)+((((canvas.width+canvas.height)/100)*(object.y-camera.y))*camera.zoom),
-    width: (object.width === object.height) ? ((canvas.width+canvas.height)/100)*object.width : (canvas.width/100)*object.width,
-    height: (object.width === object.height) ? ((canvas.width+canvas.height)/100)*object.height : (canvas.height/100)*object.height
+    width: (object.width === object.height) ? (((canvas.width+canvas.height)/100)*object.width)*camera.zoom : ((canvas.width/100)*object.width)*camera.zoom,
+    height: (object.width === object.height) ? (((canvas.width+canvas.height)/100)*object.height)*camera.zoom : ((canvas.height/100)*object.height)*camera.zoom
   }
 
   if (object.style.positionLock === true) {

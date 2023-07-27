@@ -38,6 +38,10 @@ class Create {
   text (text, x, y, style) {
     return new DisplayObject(createObject({ type: 'text', text, x, y, style: (style === undefined) ? {} : style }))
   }
+  //創建文字按鈕
+  textButton (text, x, y, callback, style) {
+    return new DisplayObject(createObject({ type: 'textButton', text, x, y, callback, style: (style === undefined) ? {} : style }))
+  }
   //創建圖像
   image (imageID, x, y, width, height, style) {
     return new DisplayObject(createObject({ type: 'image', imageID, x, y, width, height, style: (style === undefined) ? {} : style }))

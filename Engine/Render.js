@@ -149,15 +149,32 @@ export default () => {
         
         ctx.fillStyle = colorCodeToRGBA(object.style.color, object.style.opacity)
         ctx.textAlign = (object.style.align === undefined) ? 'center' : object.style.align
-        if (object.style.angle === undefined || object.style.angle === 0) ctx.fillText(object.text, displayPosition.x, displayPosition.y+((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
-        else {
-          //ctx.translate(displayPosition.x, displayPosition.y)
-          //ctx.rotate(object.style.angle*Math.PI/180)
-          //ctx.fillRect(-(displayPosition.width/2), -(displayPosition.height/2), displayPosition.width, displayPosition.height)
-          ctx.translate(displayPosition.x, displayPosition.y)
-          ctx.rotate(object.style.angle*Math.PI/180)
-          ctx.fillText(object.text, -(metrics.width/2), -((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
-        }
+        ctx.fillText(object.text, displayPosition.x, displayPosition.y+((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
+        // if (object.style.angle === undefined || object.style.angle === 0) ctx.fillText(object.text, displayPosition.x, displayPosition.y+((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
+        // else {
+        //   ctx.translate(displayPosition.x, displayPosition.y)
+        //   ctx.rotate(object.style.angle*Math.PI/180)
+        //   ctx.fillText(object.text, -(metrics.width/2), -((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
+        // }
+      } else if (object.type === 'textButton') {
+        ctx.font = `${getDisplaySize(canvas, player.cameraZoom, (object.style.size === undefined) ? 3 : object.style.size)}px ${(object.style.font === undefined) ? 'arial' : object.style.font}`
+        let metrics = ctx.measureText(object.text)
+        let displayPosition = getDisplayPosition(canvas, { x: player.cameraX, y: player.cameraY, zoom: player.cameraZoom }, { x: object.x, y: object.y, width: 0, height: 0, style: object.style })
+        
+        ctx.fillStyle = colorCodeToRGBA(object.style.color, object.style.opacity)
+        ctx.textAlign = (object.style.align === undefined) ? 'center' : object.style.align
+        ctx.fillText(object.text, displayPosition.x, displayPosition.y+((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2))
+
+        let startX = 0
+        if (object.style.align === undefined || object.style.align === 'center') startX = displayPosition.x-(metrics.width/2)
+        else if (object.style.align === 'left') startX = displayPosition.x
+        else if (object.style.align === 'right') startX = displayPosition.x-metrics.width
+
+        ctx.strokeStyle = colorCodeToRGBA(object.style.color, object.style.opacity)
+        ctx.lineWidth = getDisplaySize(canvas, player.cameraZoom, (object.style.size === undefined) ? 0.3 : object.style.size/10)
+        ctx.moveTo(startX, displayPosition.y+(((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2)+5))
+        ctx.lineTo(startX+metrics.width, displayPosition.y+(((metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent)/2)+5))
+        ctx.stroke()
       } else if (object.type === 'image') {
         let displayPosition = getDisplayPosition(canvas, { x: player.cameraX, y: player.cameraY, zoom: player.cameraZoom }, object)
 
