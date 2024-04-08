@@ -1,0 +1,21 @@
+<div @click="open = !open" light:style="position: fixed; left: [0.5ps]; top: [0.5ps]; cursor: pointer; z-index: 2">
+  <light-svg src="./Images/Settings.svg" light:style="color: white; width: [1.5ps]"></light-svg>
+</div>
+
+<transition name="fade">
+  <div v-if="open" light:style="display: flex; center: row column; position: fixed; left: 0px; top: 0px; width: 100vw; height: 100vh; backdrop-filter: blur([0.25ps]); z-index: 1">
+    <div light:style="border: [0.1ps] solid white; border-radius: [0.25ps]">
+      <h1 class="text" light:style="font-size: [1.5ps]; margin-left: [0.75ps]; margin-top: [0.6ps]; margin-bottom: [0.2ps]">Settings</h1>
+
+      <div light:style="display: flex: center: column; margin-bottom: [0.1ps]; width: [25ps]">
+        <h1 class="text" light:style="font-size: [1ps]; margin-left: [0.75ps]; margin-right: [0.25ps]">FPS:</h1>
+        <h1 @click="changeFPS" class="text button" light:style="font-size: [1ps]">{{ fps }}</h1>
+      </div>
+
+      <div light:style="display: flex: center: column; margin-bottom: [0.5ps]; width: [25ps]">
+        <h1 class="text" light:style="font-size: [1ps]; margin-left: [0.75ps]; margin-right: [0.25ps]">Resolution:</h1>
+        <h1 @click="changeResolution" class="text button" light:style="font-size: [1ps]">{{ resolution }}</h1>
+      </div>
+    </div>
+  </div>
+</transition>
