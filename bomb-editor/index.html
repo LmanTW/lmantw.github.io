@@ -6,7 +6,7 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="module" crossorigin src="/bomb-editor/assets/main-CuiZsRKU.js"></script>
+    <script type="module" crossorigin src="/bomb-editor/assets/main-wVsPq2Dk.js"></script>
   </head>
 
   <style>
@@ -67,7 +67,7 @@
 
     <div light:style="display: flex; margin-left: [4ps]; width: calc(100% - [4ps]); height: calc(100% - [3ps])">
       <canvas id="canvas" light:style="width: calc(100% - [15ps]); height: 100%"></canvas>
-      <div light:style="background-color: [$sub-color]; width: [15ps]; height: 100%">
+      <div light:style="display: flex; flex-direction: column; background-color: [$sub-color]; width: [15ps]; height: 100%">
         <h1 light:style="color: [$main-text-color]; font-size: [1.5ps]; margin: 0px; margin-left: [0.5ps]; margin-top: [0.5ps]; margin-bottom: [0.1ps]">規則</h1>
 
         <div light:style="display: flex; center: column; margin-bottom: [0.25ps]">
@@ -98,6 +98,9 @@
           <h1 class="field_text" light:style="margin-left: [0.5ps]; margin-right: [0.5ps]">高度:</h1>
           <input id="input_height" class="field_input" light:style="width: [3ps]">
         </div>
+        <div style="flex: 1"></div>
+        <h1 id="button_export_as_image" class="button" light:style="color: [$main-text-color]; font-size: [0.75ps]; margin-left: [0.5ps]; margin-botton: [0.25ps]">以圖片匯出</h1>
+      </div>
     </div> 
   </body>
 </html>
